@@ -12,57 +12,96 @@
 	<link type="text/css" href="css/MarkerCluster.Default.css" rel="stylesheet"/>
 	<link type="text/css" href="css/MarkerCluster.css" rel="stylesheet"/>
 	<link type="text/css" href="css/dc.css" rel="stylesheet"/>
-	<link type="text/css" href="css/leaflet-legend.css" rel="stylesheet"/>
+    <link type="text/css" href="css/leaflet-legend.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link type="text/css" href="css/dashboard.css" rel="stylesheet"/>
 
-  <style>
-    #holder {
-      width:850px;
-      margin:20px auto;
-    }
-    #holder>div {
-      padding:30px 0;
-      clear:both;
-    }
-    .map {
-      width:600px;
-      height:400px;
-    }
-    .pie {
-      margin-left:30px;
-    }
-    #octocat {
-      position: absolute;
-      right: 5px;
-      top: 5px;
-    }
-    /*map legend styling*/
-    /*--*/
-  </style>
 </head>
 <body>
 
-    <h1> Caudales </h1>
 
-    <div id="demo1">
-        <div class="map"></div>
-      </div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" >Caudales</a>
+              </div>
+        </div>
+    </nav>
+ 
+    <div class="row">
+        <div class="col-lg-4">
+            <div id = "mystats" class = "dc-data-count" style = "margin: 20px; float: left">
+            <span class = "filter-count"></span> weeks selected out of <span
+                class = "total-count"></span> | <a href = "javascript:dc.filterAll();
+                dc.renderAll();">Reset All</a>
+            </div>
+        </div>     
+    </div>
 
-    <div>
-         <div id="heatmap"></div>
-    </div>
     
-    <div>
-         <div id = "months_line"></div>
-    </div>
-    
-    <div>
-         <div id = "years_line"></div>
-    </div>
-    
-    
-    <div>
-         <div id = "centrals_pie"></div>
-    </div>
+    <div class ="container-fluid">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Distribución del caudal por zona</div>
+                    <div class="panel-body">
+                        <input id="lockButton" type="button" value="Lock" class="btn btn-primary" onclick="lockButtonOnClick();">
+                        <div id="demo1">
+                            <div class="map"></div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>    
+
+            <div class="col-lg-9">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Distribución del caudal por central </div>
+                            <div class="panel-body">
+                                <div id = "centrals_pie"></div>
+                            </div>
+                        </div>
+                    
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Distribución del caudal por mes</div>
+                            <div class="panel-body">
+                                <div id = "months_line"></div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Distribución del caudal por año</div>
+                            <div class="panel-body">
+                                <div id = "years_line"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Distribución del caudal por semana</div>
+                            <div class="panel-body">
+                                <div>
+                                    <div id="heatmap"></div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>    
+    </div>    
     
 
 <script type="text/javascript" src="js/d3.js"></script>
@@ -71,12 +110,19 @@
 <script type="text/javascript" src="js/leaflet.js"></script>
 <script src="js/colorbrewer.js"></script>
 
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>    
+
 <!--Optional-->
 <script type="text/javascript" src="js/leaflet.markercluster.js"></script>
 
 <script type="text/javascript" src="js/dc.leaflet.js"></script>
 <script type="text/javascript">
 
+  
   /*     Markers      */
 
   d3.json("PLP_with_coords_1.json").then(function(data) {
@@ -93,6 +139,7 @@
         var yearlineChart = dc.lineChart('#years_line');
         var monthbarChart = dc.barChart('#months_line');
         var heatmapChart =  dc.heatMap("#heatmap");
+        var countChart = dc.dataCount("#mystats");
 
         var mycrossfilter = crossfilter(data);
 
@@ -130,24 +177,28 @@
         var centralGroup = centralDimension.group().reduceSum(function(d) { return d.caudal; });
 
         
-        var choro = dc_leaflet.bubbleChart("#demo1 .map")
+        var bubble = dc_leaflet.bubbleChart("#demo1 .map")
           .dimension(facilities)
           .group(facilitiesGroup)
-          .width(600)
-          .height(800)
-          .center([42.69,25.42])
-          .zoom(7)
-          .r(d3.scaleLinear().domain([0, facilitiesGroup.top(1)[0].value]).range([0,100]));
-        
-        console.log(facilitiesGroup.top(1))
+          .width(250)
+          .height(700)
+          .center([-39,-72])
+          .zoom(6)
+          .selectedColor("red")
+          .unselectedColor("blue")
+          .r(d3.scaleLinear().domain([0, facilitiesGroup.top(1)[0].value]).range([0,100]))
+          .on('preRedraw', function() {
+               bubble.r(d3.scaleLinear().domain([0, facilitiesGroup.top(1)[0].value]).range([0,100]));
+            });
+
 
         var heatColorMapping = d3.scaleLinear()
             .domain([0, 20000])
             .range(["red" , "green"]);
 
         heatmapChart
-            .width(12 * 80 + 80)
-            .height(27 * 10 + 40)
+            .width(400)
+            .height(250)
             .dimension(weekMonthDimension)
             .group(weekMonthGroup)
             .keyAccessor(function(d) { return d.key[0]; })
@@ -164,8 +215,8 @@
 
 
         monthbarChart
-        .width(1000)
-        .height(300)
+        .width(400)
+        .height(250)
         .margins({left: 60, top: 0, right: 10, bottom: 60})
         .dimension(monthDimension)
         .group(monthGroup)
@@ -177,10 +228,18 @@
         monthbarChart
         .xAxis().tickFormat(function(d) { return months_names[d - 1]; });
 
+        monthbarChart
+        .on('renderlet',function(chart){
+                chart.selectAll("g.x text")
+                  .attr('dx', '-15')
+                  .attr('transform', "rotate(-55)");
+              });
+            
+
         yearlineChart
-        .width(1000)
-        .height(300)
-        .margins({left: 60, top: 0, right: 10, bottom: 60})
+        .width(400)
+        .height(250)
+        .margins({left: 60, top: 0, right: 10, bottom: 20})
         .dimension(yearDimension)
         .group(yearGroup)
         .x(d3.scaleLinear().domain([minYear,maxYear]))   
@@ -191,8 +250,8 @@
         
 
         pieChart
-        .width(800)
-        .height(300)
+        .width(250)
+        .height(250)
         .dimension(centralDimension)
         .innerRadius([45])
         .group(centralGroup)
@@ -202,10 +261,32 @@
                 });
             });
 
+        countChart
+            .dimension(mycrossfilter)
+            .group(mycrossfilter.groupAll()); 
         
-         
+            
+           
     dc.renderAll(); 
   }
+
+  function lockButtonOnClick(){
+      state = document.getElementById("lockButton").value;
+      if (state == "Lock"){
+        document.getElementById("lockButton").value = "Unlock"
+        console.log(dc.chartRegistry.list())
+        dc.chartRegistry.list()[5].on('preRedraw', function(){})
+      }
+      else{
+        document.getElementById("lockButton").value = "Lock"
+        var mapChart = dc.chartRegistry.list()[5]
+            mapChart.on('preRedraw', function(){
+                mapChart.r(d3.scaleLinear().domain([0, mapChart.group().top(1)[0].value]).range([0,100]))
+            })
+       
+      }
+  } 
+  
  
  
  </script>
