@@ -8,7 +8,7 @@ git clone https://github.com/dc-jsdc.leaflet.js.git
 Navigate to the project folder
 
 ```
-cd 'web dc.leaflet'
+cd 'chilean-hydroelectric-system-vis/app'
 ```
 and run a simple python server
 
@@ -20,8 +20,14 @@ then you can access the app in any browser at  http://localhost:8000
 
 # Folders & Files
 
-### Js
+### python script
+this folder contain a script that process the plp file and the dbf database. Then create a json file that is used un the web app
+
+### app
+in this folder is located the web app
+
+### app/Js
 In this folder are located the javascript libraries (d3.js + dc.js + leaflet + dc.leaflet.js) needed to run the application. The file charts.js contains the main program
 
-### Css
+### app/Css
 This folder containd the css files that the used libraries require.
