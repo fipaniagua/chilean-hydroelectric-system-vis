@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<title>DC.js + Leaflet</title>
+
+	<meta itemprop="name" content="DC.js + Leaflet"/>
+	<meta itemprop="description" content="DC.js + Leaflet chart"/>
+
+	<meta charset="UTF-8">
+
+	<link type="text/css" href="css/leaflet.css" rel="stylesheet"/>
+	<link type="text/css" href="css/MarkerCluster.Default.css" rel="stylesheet"/>
+	<link type="text/css" href="css/MarkerCluster.css" rel="stylesheet"/>
+	<link type="text/css" href="css/dc.css" rel="stylesheet"/>
+    <link type="text/css" href="css/leaflet-legend.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link type="text/css" href="css/dashboard.css" rel="stylesheet"/>
+
+</head>
+<body>
+
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" >Caudales</a>
+              </div>
+        </div>
+    </nav>
+ 
+    <div class="row">
+        <div class="col-lg-4">
+            <div id = "mystats" class = "dc-data-count" style = "margin: 20px; float: left">
+            <span class = "filter-count"></span> weeks selected out of <span
+                class = "total-count"></span> | <a href = "javascript:dc.filterAll();
+                dc.renderAll();">Reset All</a>
+            </div>
+        </div>     
+    </div>
+
+    
+    <div class ="container-fluid">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Distribución del caudal por zona</div>
+                    <div class="panel-body">
+                        <input id="lockButton" type="button" value="Lock" class="btn btn-primary" onclick="lockButtonOnClick();">
+                        <div id="demo1">
+                            <div class="map"></div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>    
+
+            <div class="col-lg-9">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Distribución del caudal por central </div>
+                            <div class="panel-body">
+                                <div id = "centrals_pie"></div>
+                            </div>
+                        </div>
+                    
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Distribución del caudal por mes</div>
+                            <div class="panel-body">
+                                <div id = "months_line"></div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Distribución del caudal por año</div>
+                            <div class="panel-body">
+                                <div id = "years_line"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Distribución del caudal por semana</div>
+                            <div class="panel-body">
+                                <div>
+                                    <div id="heatmap"></div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>    
+    </div>    
+    
+
+<script type="text/javascript" src="js/d3.js"></script>
+<script type="text/javascript" src="js/crossfilter.js"></script>
+<script type="text/javascript" src="js/dc.js"></script>
+<script type="text/javascript" src="js/leaflet.js"></script>
+<script src="js/colorbrewer.js"></script>
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>    
+
+<!--Optional-->
+<script type="text/javascript" src="js/leaflet.markercluster.js"></script>
+
+<script type="text/javascript" src="js/dc.leaflet.js"></script>
+<script type="text/javascript" src="js/charts.js"></script>
+
+</body>
+</html>
