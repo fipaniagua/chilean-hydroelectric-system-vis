@@ -2,7 +2,7 @@
 
 First you download the files
 ```
-git clone https://github.com/dc-jsdc.leaflet.js.git
+git clone https://github.com/fipaniagua/chilean-hydroelectric-system-vis
 ```
 
 Navigate to the project folder
@@ -19,7 +19,7 @@ python -m SimpleHTTPServer 8000
 for windows
 
 ```
-python -m http.serve 8000
+python -m http.server 8000
 ```
 
 then you can access the app in any browser at  http://localhost:8000
