@@ -16,6 +16,12 @@ and run a simple python server
 python -m SimpleHTTPServer 8000
 ```
 
+for windows
+
+```
+python -m http.serve 8000
+```
+
 then you can access the app in any browser at  http://localhost:8000
 
 # Folders & Files
